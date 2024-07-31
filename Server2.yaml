@@ -1,0 +1,1451 @@
+
+#================================
+#                    --------𝚄𝚄𝙸𝙳--------
+uuid:
+  - &uuid1 c5b5485e-4236-4a30-bc4d-660a86b88fad
+host:
+  - &host1 id2.hcstore.my.id
+servername:
+  - &host1 id2.hcstore.my.id 
+path:
+  - &path1 "/vless" 
+port:
+  - &port 80
+type:
+  - &type1 vless  
+tls:
+  - &tls false
+#================================
+ 
+
+server:
+#TSEL ILMUPEDIA  ✅
+  - &1 104.26.7.171
+  - &2 104.16.85.20
+#TSEL opok ✅
+  - &3 172.66.0.157 
+  - &4 162.159.140.159
+#XL FLEX  ✅
+  - &5 sogood.linefriends.com
+#XL VISION+  ✅
+  - &6 104.18.225.52
+  - &7 172.67.192.40 
+  - &8 104.21.73.208 
+  - &9 104.21.233.134
+#XL VIDIO  ✅
+  - &10 172.67.5.14
+  - &11 104.22.5.240 #quiz.vidio.com
+  - &12 104.22.4.240 #quiz.int.vidio.com 
+#AXIS GAMES ✅
+  - &13 104.16.108.96 
+  - &14 zendesk1.appsflyer.com #51+52
+#ISAT EDUKASI ✅
+  - &15 104.18.18.242 
+  - &16 141.193.213.10
+  - &17 141.193.213.11
+  - &18 104.18.16.230
+#XL YT  ✅
+  - &19 104.18.19.183 #
+#XTRA COMBO PLUS + UNLI TURBO ✅
+  - &20 104.18.62.203 #
+  - &21 cvs-deo.shopeemobile.com 31+32
+#BIZ DATA+ ✅
+  - &22 104.17.3.81 #
+  - &23 104.16.53.111 #
+  - &24 104.16.51.111 #
+  - &25 167.71.220.72 #? 
+  - &26 104.16.226.91 #? 
+  - &27 xsni mode srv1, 5
+  - &28 104.18.20.219 #gamemax
+  - &29 104.18.18.242 #isatedu
+#XL OPOK  ✅
+  - &30 104.18.40.232
+#XTRA COMBO PLUS + UNLI TURBO ✅
+  - &31 104.18.56.55 #
+  - &32 104.18.62.204
+#
+  - &33 104.18.226.52 #
+  - &34 104.18.225.52 #flexjuga
+  - &35 104.21.235.171
+#axis0
+  - &36 172.67.6.144 #flexjabarjuga
+  - &37 104.22.29.102 #flexjabarjuga
+#wifiid ✅
+  - &38 104.18.2.2 #rg
+  - &39 104.18.3.2 #rg
+#axis game
+  - &40 104.16.16.243
+  - &41 104.17.255.156
+#
+  - &42 104.26.7.171 #
+  - &43 104.26.6.171 #
+  - &44 104.18.20.226
+#TSEL RUANGGURU ✅
+  - &45 188.114.99.229 #rg
+  - &46 188.114.98.229 #rg
+#
+  - &47 104.18.21.219 #gamemax
+  - &48 172.67.22.129 #rg
+  - &49 104.22.21.245 #rg
+  - &50 104.22.20.245 #rg
+#AXIS GAMES ✅
+  - &51 162.159.138.6 #
+  - &52 162.159.128.7 # 
+#TSEL OPOK ✅
+  - &53 172.66.0.156 #
+  - &54 162.159.140.158
+#
+  - &55 104.18.107.64 #
+  - &56 172.67.6.144 #flexjabarjuga
+  - &57 104.18.0.139 #viu
+  - &58 104.18.1.139 #viu
+  - &59 172.67.22.129 #rgbyu
+  - &60 104.22.21.245 #rgbyu
+  - &61 104.22.20.245 #rgbyu
+#edu
+  - &62 162.159.130.11 #done
+  - &63 162.159.129.11 #done
+  - &64 104.17.2.81 #xledu
+  - &65 104.18.106.64 #
+  - &66 104.18.214.235 #ISAT xcl
+  - &67 104.18.214.235 #ISAT xcl
+#byu opok
+  - &68 162.159.138.78 #
+#axis edu
+  - &69 104.21.8.162 #
+  - &70 172.67.139.182 #
+#viu
+  - &71 188.114.99.229 #
+  - &72 188.114.98.229 #
+  - &73 172.64.149.213 #
+  - &74 104.18.38.43 #
+#conf
+  - &75 170.114.45.0 #vl
+  - &76 104.18.12.78 #
+  - &77 104.18.13.78 #
+  - &78 104.18.30.9 #vl
+  - &79 104.26.4.192 #
+  - &80 149.96.161.28 #x
+#
+  - &81 104.17.158.243 
+  - &82 104.17.158.243 
+
+#================================
+
+proxies:
+  - name: loading
+    type: http
+    server: cp.cloudflare.com
+    port: 80
+  - name: 🇮🇩 1
+    server: *1
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 2
+    server: *2
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 3
+    server: *3
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 4
+    server: *4
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 5
+    server: *5
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 6
+    server: *6
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 7
+    server: *7
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 32
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 8
+    server: *8
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 9
+    server: *9
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 10
+    server: *10
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 11
+    server: *11
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 12
+    server: *12
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 13
+    server: *13
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 14
+    server: *14
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 15
+    server: *15
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 16
+    server: *16
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 17
+    server: *17
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 18
+    server: *18
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 19
+    server: *19
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 20
+    server: *20
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 21
+    server: *21
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 22
+    server: *22
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 23
+    server: *23
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 24
+    server: *24
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 25
+    server: *25
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 26
+    server: *26
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 27
+    server: *host1
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: m.mobilelegends.com
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 28
+    server: *28
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 29
+    server: *29
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 30
+    server: *30
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 31
+    server: *31
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 32
+    server: *32
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 33
+    server: *33
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 34
+    server: *34
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 35
+    server: *35
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 36
+    server: *36
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 37
+    server: *37
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 38
+    server: *38
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 39
+    server: *39
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 40
+    server: *40
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 41
+    server: *41
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 42
+    server: *42
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 43
+    server: 43
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 44
+    server: *44
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 45
+    server: *45
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 46
+    server: *46
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 47
+    server: *47
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 48
+    server: *48
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 49
+    server: *49
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 50
+    server: *50
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 51
+    server: *51
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 52
+    server: *52
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 53
+    server: *53
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 54
+    server: *54
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 55
+    server: *55
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 56
+    server: *56
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 57
+    server: *57
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 58
+    server: *58
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 59
+    server: *59
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 60
+    server: *60
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 61
+    server: *61
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 62
+    server: *62
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 63
+    server: *63
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 64
+    server: *64
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 65
+    server: *65
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 66
+    server: *66
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 67
+    server: *67
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 68
+    server: *68
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 69
+    server: *69
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 70
+    server: *70
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 71
+    server: *71
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 72
+    server: *72
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 73
+    server: *73
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 74
+    server: *74
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 75
+    server: *75
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 76
+    server: *76
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 77
+    server: *77
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 78
+    server: *78
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 79
+    server: *79
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 80
+    server: *80
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 81
+    server: *81
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
+  - name: 🇮🇩 82
+    server: *82
+    port: *port
+    type: *type1
+    uuid: *uuid1
+    cipher: auto
+    alterId: 0
+    tls: *tls
+    skip-cert-verify: true
+    servername: *host1
+    network: ws
+    ws-opts:
+      path: *path1
+      headers:
+        Host: *host1
+    udp: true
