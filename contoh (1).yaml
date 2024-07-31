@@ -1,0 +1,1146 @@
+port: 7890
+socks-port: 7891
+# redir-port: 7892
+allow-lan: true
+# 仅适用于设置 allow-lan 为 true 时
+# "*": 绑定所有 IP 地址
+#192.168.122.11: 绑定单个 IPv4 地址
+# "[aaaa::a8aa:ff:fe09:57d8]": 绑定单个 IPv6 地址
+# bind-address: "*"
+dns:
+  enable: true
+  ipv6: false
+  use-host: true
+  enhanced-mode: fake-ip
+  listen: 0.0.0.0:7874
+  nameserver:
+    - 8.8.8.8
+    - 1.0.0.1
+    - https://dns.google/dns-query
+  fallback:
+    - 1.1.1.1
+    - 8.8.4.4
+    - https://cloudflare-dns.com/dns-query
+    - 112.215.203.254
+  default-nameserver:
+    - 8.8.8.8
+    - 1.1.1.1
+    - 112.215.203.254
+mode: Rule
+log-level: info
+external-controller: 127.0.0.1:9090
+experimental:
+  ignore-resolve-fail: true 
+hosts:
+  'mtalk.google.com': 108.177.125.188
+#   '*.clash.dev': 127.0.0.1
+#   'alpha.clash.dev': '::1'
+#🔴_____________________________________proxies______________________________________🔴
+#🔴
+proxies: 
+  - name: SG DO TLS
+    server: 104.18.3.2
+    port: 443
+    type: vmess
+    uuid: f3f06036-f052-4478-acbb-0b81307d4bca
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    servername: kuhaku.zerossh.my.id
+    network: ws
+    ws-opts:
+      path: /vmess
+      headers:
+        Host: kuhaku.zerossh.my.id
+    udp: true
+
+  - name: SG DO NTLS
+    server: img.email3.vidio.com
+    port: 80
+    type: vmess
+    uuid: c5b5485e-4236-4a30-bc4d-660a86b88fad
+    alterId: 0
+    cipher: auto
+    tls: false
+    skip-cert-verify: true
+    servername: id2.hcstore.my.id
+    network: ws
+    ws-opts:
+      path: /vmess
+      headers:
+        Host: id2.hcstore.my.id
+    udp: true
+
+  - name: SG DO GRPC
+    server: 104.18.3.2
+    port: 443
+    type: vmess
+    uuid: f3f06036-f052-4478-acbb-0b81307d4bca
+    alterId: 0
+    cipher: auto
+    network: grpc
+    tls: true
+    servername: kuhaku.zerossh.my.id
+    skip-cert-verify: true
+    grpc-opts:
+      grpc-service-name: vmess-grpc
+
+  - name: VLESS KNC 443
+    server: 104.18.3.2
+    port: 443
+    type: vless
+    uuid: 80510fd1-7a7d-4b83-a3db-05fb7f23dea5
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    servername: id.knc.my.id
+    network: ws
+    ws-opts:
+      path: /?ed=2048
+      headers:
+        Host: id.knc.my.id
+    udp: true
+
+  - name: VLESS KNC2 443
+    server: 104.18.3.2
+    port: 443
+
+
+    type: vless
+    uuid: 80510fd1-7a7d-4b83-a3db-05fb7f23dea5
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    servername: id2.knc.my.id
+    network: ws
+    ws-opts:
+      path: /?ed=2048
+      headers:
+        Host: id2.knc.my.id
+    udp: true
+
+  - name: VLESS KNC KR 443
+    server: 104.18.3.2
+    port: 443
+
+
+    type: vless
+    uuid: 4994c6a3-3242-45b8-a3e3-7d0fb82b0ece
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    servername: kr.free.knc.my.id
+    network: ws
+    ws-opts:
+      path: /?ed=2048
+      headers:
+        Host: kr.free.knc.my.id
+    udp: true
+
+  - name: VLESS DO 443
+    server: 104.18.3.2
+    port: 443
+
+
+    type: vless
+    uuid: b0cb1b0b-f5ba-4ca4-a587-cfe48126bff7
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    servername: sgdo1.aframdani.cloud
+    network: ws
+    ws-opts:
+      path: /vless-ws
+      headers:
+        Host: sgdo1.aframdani.cloud
+    udp: true
+    
+    
+
+
+#🔴
+#🔴_____________________________________proxies______________________________________🔴
+#
+#🟡_________________________________PROXY-GROUP__________________________________🟡
+proxy-groups:
+# Global kita gunakan untuk koneksi UMUM
+- name: "Global✅"
+  type: select
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+    -  DIRECT
+
+
+ #⬜⬜
+#Koneksi Sosmed
+- name: "SOSMED"
+  type: select #PILIIH SALAH SATU : SELECT,LOAD-BALANCE,FALLBACK,URL-TEST
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+    -  DIRECT
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+#⬜⬜
+#koneksi untuk YOUTUBE,
+- name: "YOUTUBE"
+  type: select
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+    -  DIRECT
+    -  REJECT
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+#koneksi nonton video
+- name: "STREAMING"
+  type: select
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+    -  DIRECT
+    -  REJECT
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+ #koneksi untuk Bank,
+- name: "AKUN BANK"
+  type: select
+  proxies:
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+    -  DIRECT
+    -  REJECT
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+ #koneksi untuk porno,
+- name: "18+"
+  type: select
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+    -  REJECT
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+ #koneksi untuk BELANJA,
+- name: "MARKETPLACE"
+  type: select
+  proxies:
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+    -  REJECT
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+ #koneksi untuk iklan,
+- name: "IKLAN"
+  type: select
+  proxies:
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+    -  REJECT
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+   #koneksi untuk iklan,
+- name: "FALLBACK"
+  type: fallback
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+  #koneksi untuk iklan,
+- name: "BEST PING"
+  type: url-test
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+   #koneksi untuk iklan,
+- name: "LOAD-BALANCE"
+  type: load-balance
+  strategy: round-robin
+  disable-udp: false
+  proxies:
+    -  SG DO TLS
+    -  SG DO NTLS
+    -  SG DO GRPC
+    -  VLESS KNC 443
+    -  VLESS KNC2 443
+    -  VLESS KNC KR 443
+    -  VLESS DO 443
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+   #koneksi untuk iklan,
+- name: "TRAFIK"
+  type: url-test
+  proxies:
+    -  Global✅
+    -  SOSMED
+    -  YOUTUBE
+    -  STREAMING
+    -  AKUN BANK
+    -  18+
+    -  MARKETPLACE
+    -  IKLAN
+    -  BEST PING
+    -  LOAD-BALANCE
+    -  FALLBACK
+  url: 'http://www.gstatic.com/generate_204'
+  interval: 300
+ #⬜⬜
+#🟡_________________________________PROCY-GROUP__________________________________🟡
+# Clash for Windows
+cfw-bypass:
+  - qq.com
+  - music.163.com
+  - '*.music.126.net'
+  - localhost
+  - 127.*
+  - 10.*
+  - 172.16.*
+  - 172.17.*
+  - 172.18.*
+  - 172.19.*
+  - 172.20.*
+  - 172.21.*
+  - 172.22.*
+  - 172.23.*
+  - 172.24.*
+  - 172.25.*
+  - 172.26.*
+  - 172.27.*
+  - 172.28.*
+  - 172.29.*
+  - 172.30.*
+  - 172.31.*
+  - 192.168.*
+  - <local>
+cfw-latency-timeout: 5000
+
+rules:
+# >BISA DI ISI SUBDOMAIN,IP-CIDR ATAU PORT GAME 
+# KUSUS
+- DOMAIN-SUFFIX,whoer.net,SOSMED
+- DOMAIN-SUFFIX,zello.com,SOSMED
+- DOMAIN-SUFFIX,google.com,Global✅
+- DOMAIN-SUFFIX,blogspot.com,Global✅
+- DOMAIN-SUFFIX,blogger.com,Global✅
+#SSH
+- DOMAIN-SUFFIX,howdy.id,SOSMED
+- DOMAIN-SUFFIX,jagoanssh.com,SOSMED
+- DOMAIN-SUFFIX,masterssh.com,SOSMED
+- DOMAIN-SUFFIX,dewassh.net,SOSMED
+#Speedtest
+- DOMAIN-SUFFIX,cdnst.net,TRAFIK
+- DOMAIN-SUFFIX,cellmaps.com,TRAFIK
+- DOMAIN-SUFFIX,ekahau.cloud,TRAFIK
+- DOMAIN-SUFFIX,ekahau.com,TRAFIK
+- DOMAIN-SUFFIX,ookla.com,TRAFIK
+- DOMAIN-SUFFIX,ooklaserver.net,TRAFIK
+- DOMAIN-SUFFIX,pingtest.net,TRAFIK
+- DOMAIN-SUFFIX,speedtest.co,TRAFIK
+- DOMAIN-SUFFIX,speedtest.net,TRAFIK
+- DOMAIN-SUFFIX,speedtestcustom.com,TRAFIK
+- DOMAIN-SUFFIX,webtest.net,TRAFIK
+- DOMAIN-SUFFIX,speed.cloudflare.com,TRAFIK
+- DOMAIN-SUFFIX,speed.dler.io,TRAFIK
+- DOMAIN-SUFFIX,openspeedtest.com,TRAFIK
+- DOMAIN-SUFFIX,cachefly.net,TRAFIK
+- DOMAIN-KEYWORD,speedtest,TRAFIK
+- DOMAIN-KEYWORD,speedtestcustom,TRAFIK
+- DOMAIN-KEYWORD,openspeedtest,TRAFIK
+- DST-PORT,8080,TRAFIK
+- DOMAIN-SUFFIX,fast.com,TRAFIK
+- DOMAIN-SUFFIX,fast.net.id,TRAFIK
+  # Marketplace
+- DOMAIN-KEYWORD,bukalapak,MARKETPLACE
+- DOMAIN-SUFFIX,qasir.id,MARKETPLACE
+- DOMAIN-KEYWORD,akulaku,MARKETPLACE
+- DOMAIN-KEYWORD,akulaku.com,MARKETPLACE
+- DOMAIN-SUFFIX,akulaku.com,MARKETPLACE
+- DOMAIN-KEYWORD,bukalapak.com,MARKETPLACE
+- DOMAIN-SUFFIX,tokopedia.com,MARKETPLACE
+- DOMAIN-SUFFIX,shopee.co.id,MARKETPLACE
+- DOMAIN-SUFFIX,shopeefood.co.id,MARKETPLACE
+- DOMAIN-SUFFIX,shopeemobile.com,MARKETPLACE
+- DOMAIN-SUFFIX,bukalapak.com,MARKETPLACE
+- DOMAIN-SUFFIX,lazada.co.id,MARKETPLACE
+- DOMAIN-SUFFIX,blibli.com,MARKETPLACE
+- DOMAIN-SUFFIX,orami.co.id,MARKETPLACE
+- DOMAIN-SUFFIX,ralali.com,MARKETPLACE
+- DOMAIN-SUFFIX,bhinneka.com,MARKETPLACE
+- DOMAIN-SUFFIX,jd.id,MARKETPLACE
+- DOMAIN-SUFFIX,zalora.co.id,MARKETPLACE
+- DOMAIN-KEYWORD,tokopedia,MARKETPLACE
+- DOMAIN-KEYWORD,shopee,MARKETPLACE
+- DOMAIN-KEYWORD,shopeefood,MARKETPLACE
+- DOMAIN-KEYWORD,bukalapak,MARKETPLACE
+- DOMAIN-KEYWORD,lazada,MARKETPLACE
+- DOMAIN-KEYWORD,blibli,MARKETPLACE
+- DOMAIN-KEYWORD,orami,MARKETPLACE
+- DOMAIN-KEYWORD,ralali,MARKETPLACE
+- DOMAIN-KEYWORD,bhinneka,MARKETPLACE
+- DOMAIN-KEYWORD,zalora,MARKETPLACE
+# Facebook,
+- DOMAIN-SUFFIX,messenger.com,SOSMED
+- DOMAIN-SUFFIX,facebook.com,SOSMED
+- DOMAIN-SUFFIX,facebook.net,SOSMED
+- DOMAIN-SUFFIX,fb.com,SOSMED
+- DOMAIN-SUFFIX,fb.me,SOSMED
+- DOMAIN-SUFFIX,fbaddins.com,SOSMED
+- DOMAIN-SUFFIX,fbcdn.net,SOSMED
+- DOMAIN-SUFFIX,fbsbx.com,SOSMED
+- DOMAIN-SUFFIX,fbworkmail.com,SOSMED
+- DOMAIN-SUFFIX,facebookmail.com,SOSMED
+- IP-CIDR,157.240.0.0/16,SOSMED
+- IP-CIDR,103.4.96.0/22,SOSMED
+- IP-CIDR,129.134.0.0/17,SOSMED
+- IP-CIDR,157.240.0.0/17,SOSMED
+- IP-CIDR,173.252.64.0/19,SOSMED
+- IP-CIDR,173.252.96.0/19,SOSMED
+- IP-CIDR,179.60.192.0/22,SOSMED
+- IP-CIDR,185.60.216.0/22,SOSMED
+- IP-CIDR,204.15.20.0/22,SOSMED
+- IP-CIDR,31.13.24.0/21,SOSMED
+- IP-CIDR,31.13.64.0/18,SOSMED
+- IP-CIDR,45.64.40.0/22,SOSMED
+- IP-CIDR,66.220.144.0/20,SOSMED
+- IP-CIDR,69.171.224.0/19,SOSMED
+- IP-CIDR,69.63.176.0/20,SOSMED
+- IP-CIDR,74.119.76.0/22,SOSMED
+#telegram
+- DOMAIN-SUFFIX,telegra.ph,SOSMED
+- DOMAIN-SUFFIX,telegram.org,SOSMED
+- DOMAIN-SUFFIX,t.me,SOSMED
+- DOMAIN-SUFFIX,tdesktop.com,SOSMED
+- DOMAIN-SUFFIX,telegram.me,SOSMED
+- DOMAIN-SUFFIX,telesco.pe,SOSMED
+- IP-CIDR,91.108.4.0/22,SOSMED
+- IP-CIDR,91.108.8.0/22,SOSMED
+- IP-CIDR,91.108.12.0/22,SOSMED
+- IP-CIDR,91.108.16.0/22,SOSMED
+- IP-CIDR,91.108.20.0/22,SOSMED
+- IP-CIDR,91.108.56.0/22,SOSMED
+- IP-CIDR,149.154.160.0/20,SOSMED
+#wa
+- DOMAIN-KEYWORD,whatsapp.com,SOSMED
+- DOMAIN-KEYWORD,whatsapp.net,SOSMED 
+- DOMAIN-SUFFIX,g.whatsapp.net,SOSMED
+- DOMAIN-SUFFIX,web.whatsapp.com,SOSMED 
+- DOMAIN-SUFFIX,scontent.whatsapp.net,SOSMED
+- DOMAIN-SUFFIX,whatsapp.com,SOSMED
+- DOMAIN-SUFFIX,static.whatsapp.net,SOSMED
+- DOMAIN-SUFFIX,whatsapp.net,SOSMED
+- DOMAIN-SUFFIX,mmg.whatsapp.net,SOSMED
+- DOMAIN-SUFFIX,media.fbdj2-1.fna.whatsapp.net,SOSMED
+- DOMAIN-SUFFIX,media-xsp1-2.cdn.whatsapp.net,SOSMED
+- DOMAIN,graph.facebook.com,SOSMED
+- DOMAIN-SUFFIX,bintray.com,SOSMED
+- DOMAIN-SUFFIX,whatsapp.biz,SOSMED
+- DOMAIN-SUFFIX,whatsapp.com,SOSMED
+- DOMAIN-SUFFIX,whatsapp.net,SOSMED 
+- DOMAIN-KEYWORD,whatsapp,SOSMED
+- IP-CIDR,108.168.174.0/16,SOSMED
+- IP-CIDR,158.85.224.160/27,SOSMED
+- IP-CIDR,158.85.46.128/27,SOSMED 
+- IP-CIDR,158.85.5.192/27,SOSMED
+- IP-CIDR,173.192.222.160/27,SOSMED
+- IP-CIDR,173.192.231.32/27,SOSMED
+- IP-CIDR,174.37.243.0/16,SOSMED
+- IP-CIDR,18.194.0.0/15,SOSMED
+- IP-CIDR,184.173.128.0/17,SOSMED
+- IP-CIDR,208.43.122.128/27,SOSMED
+- IP-CIDR,34.224.0.0/12,SOSMED
+- IP-CIDR,50.22.198.204/30,SOSMED
+- IP-CIDR,54.242.0.0/15,SOSMED
+- IP-CIDR,69.171.235.0/16,SOSMED
+- IP-CIDR,75.126.150.0/16,SOSMED
+- DST-PORT,5228,SOSMED
+- DST-PORT,5222,SOSMED
+  # > Youtube
+- DOMAIN-SUFFIX,video.google.com,YOUTUBE
+- DOMAIN-SUFFIX,youtu.be,YOUTUBE
+- DOMAIN-SUFFIX,youtube-nocookie.com,YOUTUBE
+- DOMAIN-SUFFIX,youtube-ui.l.google.com,YOUTUBE
+- DOMAIN-SUFFIX,youtube.com,YOUTUBE
+- DOMAIN-SUFFIX,youtube.googleapis.com,YOUTUBE
+- DOMAIN-SUFFIX,youtubeeducation.com,YOUTUBE
+- DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com,YOUTUBE
+- DOMAIN-SUFFIX,youtubei.googleapis.com,YOUTUBE
+- DOMAIN-SUFFIX,youtubekids.com,YOUTUBE
+- DOMAIN-SUFFIX,yt.be,YOUTUBE
+- DOMAIN-SUFFIX,yt3.ggpht.com,YOUTUBE
+- DOMAIN-SUFFIX,ytimg.com,YOUTUBE
+- DOMAIN-SUFFIX,googleapis.com,YOUTUBE
+- DOMAIN-SUFFIX,gstatic.com,YOUTUBE
+- DOMAIN-SUFFIX,googleusercontent.com,YOUTUBE
+- DOMAIN-SUFFIX,gvt1.com,YOUTUBE
+- IP-CIDR,74.125.24.188/16,YOUTUBE
+- IP-CIDR,172.217.194.188/16,YOUTUBE
+- IP-CIDR,142.250.4.188/16,YOUTUBE
+#tiktok
+- DOMAIN-SUFFIX,byteoversea.com,STREAMING
+- DOMAIN-SUFFIX,ibytedtos.com,STREAMING
+- DOMAIN-SUFFIX,ipstatp.com,STREAMING
+- DOMAIN-SUFFIX,muscdn.com,STREAMING
+- DOMAIN-SUFFIX,musical.ly,STREAMING
+- DOMAIN-SUFFIX,tiktok.com,STREAMING
+- DOMAIN-SUFFIX,tik-tokapi.com,STREAMING
+- DOMAIN-SUFFIX,tiktokcdn.com,STREAMING
+- DOMAIN-SUFFIX,tiktokv.com,STREAMING
+- DOMAIN-KEYWORD,-tiktokcdn-com,STREAMING
+#porn
+- DOMAIN-SUFFIX,phncdn.com,18+
+- DOMAIN-SUFFIX,xnxx.com,18+
+- DOMAIN-SUFFIX,xvideos.com,18+
+- DOMAIN-SUFFIX,phprcdn.com,18+
+- DOMAIN-SUFFIX,porngub.com,18+
+- DOMAIN-SUFFIX,pornhub-deutsch.net,18+
+- DOMAIN-SUFFIX,pornhubapparel.com,18+
+- DOMAIN-SUFFIX,pornhub.com,18+
+- DOMAIN-SUFFIX,pornhub.org,18+
+- DOMAIN-SUFFIX,pornhubpremium.com,18+
+- DOMAIN-SUFFIX,0plkijj.vip,18+
+- DOMAIN-SUFFIX,114av.xyz,18+ 
+- DOMAIN-SUFFIX,128100.xyz,18+
+- DOMAIN-SUFFIX,16fhgdty.xyz,18+
+- DOMAIN-SUFFIX,18novel.xyz,18+
+- DOMAIN-SUFFIX,1jjdg2.vip,18+
+- DOMAIN-SUFFIX,1jsa22.vip,18+
+- DOMAIN-SUFFIX,1pondo.tv,18+
+- DOMAIN-SUFFIX,51dh.site,18+
+- DOMAIN-SUFFIX,520aa.tv,18+
+- DOMAIN-SUFFIX,5278.cc,18+
+- DOMAIN-SUFFIX,52hyse.com,18+
+- DOMAIN-SUFFIX,54647.global,18+
+- DOMAIN-SUFFIX,54647.io,18+
+- DOMAIN-SUFFIX,54647.online,18+
+- DOMAIN-SUFFIX,69story.com,18+
+- DOMAIN-SUFFIX,69vj.com,18+
+- DOMAIN-SUFFIX,721av.com,18+
+- DOMAIN-SUFFIX,7mm.tv,18+
+- DOMAIN-SUFFIX,85tube.com,18+
+- DOMAIN-SUFFIX,8muses.com,18+
+- DOMAIN-SUFFIX,91.51rmc.com,18+
+- DOMAIN-SUFFIX,91porn.com,18+
+- DOMAIN-SUFFIX,920share.com,18+
+- DOMAIN-SUFFIX,a.91gay.me,18+
+- DOMAIN-SUFFIX,a.kslive.tv,18+
+- DOMAIN-SUFFIX,aavs.xyz,18+
+- DOMAIN-SUFFIX,agzy1.com,18+
+- DOMAIN-SUFFIX,aibaobei.me,18+
+- DOMAIN-SUFFIX,aimei133.com,18+
+- DOMAIN-SUFFIX,airav.cc,18+
+- DOMAIN-SUFFIX,animezilla.com,18+
+- DOMAIN-SUFFIX,asianpornmovies.com,18+
+- DOMAIN-SUFFIX,av01.tv,18+
+- DOMAIN-SUFFIX,av1688.cc,18+
+- DOMAIN-SUFFIX,av6k.com,18+
+- DOMAIN-SUFFIX,avfox.cc,18+
+- DOMAIN-SUFFIX,avgle.com,18+
+- DOMAIN-SUFFIX,avinin.com,18+
+- DOMAIN-SUFFIX,avmoo.casa,18+
+- DOMAIN-SUFFIX,avmoo.com,18+
+- DOMAIN-SUFFIX,avmoo.cyou,18+
+- DOMAIN-SUFFIX,avn.com,18+
+- DOMAIN-SUFFIX,avpanda.cc,18+
+- DOMAIN-SUFFIX,avsee01.tv,18+
+- DOMAIN-SUFFIX,avseesee.com,18+
+- DOMAIN-SUFFIX,aznude.com,18+
+- DOMAIN-SUFFIX,bangbros.com,18+
+- DOMAIN-SUFFIX,bcicdn.com,18+
+- DOMAIN-SUFFIX,bcrncdn.com,18+
+- DOMAIN-SUFFIX,beeg.com,18+
+- DOMAIN-SUFFIX,besthentaitube.com,18+
+- DOMAIN-SUFFIX,bongacams.com,18+
+- DOMAIN-SUFFIX,brazzers.com,18+
+- DOMAIN-SUFFIX,btt804.com,18+
+- DOMAIN-SUFFIX,btt904.com,18+
+- DOMAIN-SUFFIX,bttzyw.com,18+
+- DOMAIN-SUFFIX,bttzyw.net,18+
+- DOMAIN-SUFFIX,buzzav.com,18+
+- DOMAIN-SUFFIX,cableav.tv,18+
+- DOMAIN-SUFFIX,caime.xyz,18+
+- DOMAIN-SUFFIX,calvappd.me,18+
+- DOMAIN-SUFFIX,cam4.com,18+
+- DOMAIN-SUFFIX,camwhores.tv,18+
+- DOMAIN-SUFFIX,cdnlab.live,18+
+- DOMAIN-SUFFIX,chaturbate.com,18+
+- DOMAIN-SUFFIX,cslpldyb.me,18+
+- DOMAIN-SUFFIX,dditsadn.com,18+
+- DOMAIN-SUFFIX,dditscdn.com,18+
+- DOMAIN-SUFFIX,dkk37.com,18+
+- DOMAIN-SUFFIX,download.91porn005.me,18+
+- DOMAIN-SUFFIX,download.i91av.org,18+
+- DOMAIN-SUFFIX,dvh30n.vip,18+
+- DOMAIN-SUFFIX,e-hentai.org,18+
+- DOMAIN-SUFFIX,ehgt.org,18+
+- DOMAIN-SUFFIX,ehtracker.org,18+
+- DOMAIN-SUFFIX,ehwiki.org,18+
+- DOMAIN-SUFFIX,eporner.com,18+
+- DOMAIN-SUFFIX,exhentai.org,18+
+- DOMAIN-SUFFIX,fanhaodian.com,18+
+- DOMAIN-SUFFIX,findercdn.me,18+
+- DOMAIN-SUFFIX,flirt4free.com,18+
+- DOMAIN-SUFFIX,follasian.com,18+
+- DOMAIN-SUFFIX,gaypad.net,18+
+- DOMAIN-SUFFIX,gouri.xyz,18+
+- DOMAIN-SUFFIX,hanime.tv,18+
+- DOMAIN-SUFFIX,hanime1.me,18+
+- DOMAIN-SUFFIX,hath.network,18+
+- DOMAIN-SUFFIX,hegre.com,18+
+- DOMAIN-SUFFIX,hentaiathome.net,18+
+- DOMAIN-SUFFIX,hentaiverse.org,18+
+- DOMAIN-SUFFIX,heydoga.com,18+
+- DOMAIN-SUFFIX,heyzo.com,18+
+- DOMAIN-SUFFIX,hpjav.tv,18+
+- DOMAIN-SUFFIX,hqporner.com,18+
+- DOMAIN-SUFFIX,hsxhr.cc,18+
+- DOMAIN-SUFFIX,hxc10.vip,18+
+- DOMAIN-SUFFIX,hxcsxs.pro,18+
+- DOMAIN-SUFFIX,ichineseporn.com,18+
+- DOMAIN-SUFFIX,iijav.com,18+
+- DOMAIN-SUFFIX,immxd.com,18+
+- DOMAIN-SUFFIX,isexlove.tw,18+
+- DOMAIN-SUFFIX,isexomega.tw,18+
+- DOMAIN-SUFFIX,jable.tv,18+
+- DOMAIN-SUFFIX,japan-whores.com,18+
+- DOMAIN-SUFFIX,jav.guru,18+
+- DOMAIN-SUFFIX,jav01.cc,18+
+- DOMAIN-SUFFIX,jav101.com,18+
+- DOMAIN-SUFFIX,jav168.cc,18+
+- DOMAIN-SUFFIX,jav321.com,18+
+- DOMAIN-SUFFIX,jav777.cc,18+
+- DOMAIN-SUFFIX,javbus.com,18+
+- DOMAIN-SUFFIX,javbus22.com,18+
+- DOMAIN-SUFFIX,javcc.cc,18+
+- DOMAIN-SUFFIX,javcc.com,18+
+- DOMAIN-SUFFIX,javdb.com,18+
+- DOMAIN-SUFFIX,javdoe.com,18+
+- DOMAIN-SUFFIX,javdove8.xyz,18+
+- DOMAIN-SUFFIX,javfinder.sh,18+
+- DOMAIN-SUFFIX,javfor.me,18+
+- DOMAIN-SUFFIX,javfree.me,18+
+- DOMAIN-SUFFIX,javfull.net,18+
+- DOMAIN-SUFFIX,javhd.com,18+
+- DOMAIN-SUFFIX,javhd.pro,18+
+- DOMAIN-SUFFIX,javhd3x.com,18+
+- DOMAIN-SUFFIX,javhdfree.net,18+
+- DOMAIN-SUFFIX,javlibrary.com,18+
+- DOMAIN-SUFFIX,javmodel.com,18+
+- DOMAIN-SUFFIX,javmost.com,18+
+- DOMAIN-SUFFIX,javqd.com,18+
+- DOMAIN-SUFFIX,javscreens.com,18+
+- DOMAIN-SUFFIX,javwide.com,18+
+- DOMAIN-SUFFIX,javwide.tv,18+
+- DOMAIN-SUFFIX,javynow.com,18+
+- DOMAIN-SUFFIX,jgg18.xyz,18+
+- DOMAIN-SUFFIX,jiayoulu.com,18+
+- DOMAIN-SUFFIX,jinnaju.com,18+
+- DOMAIN-SUFFIX,jjdong7.com,18+
+- DOMAIN-SUFFIX,johren.net,18+
+- DOMAIN-SUFFIX,kindgirls.com,18+
+- DOMAIN-SUFFIX,kissjav.com,18+
+- DOMAIN-SUFFIX,kphimsex.net,18+
+- DOMAIN-SUFFIX,livejasmin.com,18+
+- DOMAIN-SUFFIX,love7.xyz,18+
+- DOMAIN-SUFFIX,lp99.pw,18+
+- DOMAIN-SUFFIX,lsnzxzy1.com,18+
+- DOMAIN-SUFFIX,lubetube.com,18+
+- DOMAIN-SUFFIX,lululu.one,18+
+- DOMAIN-SUFFIX,manyvids.com,18+
+- DOMAIN-SUFFIX,mdlf.xyz,18+
+- DOMAIN-SUFFIX,metart.com,18+
+- DOMAIN-SUFFIX,metartnetwork.com,18+
+- DOMAIN-SUFFIX,metcams.com,18+
+- DOMAIN-SUFFIX,myavfun.com,18+
+- DOMAIN-SUFFIX,mydirtyhobby.com,18+
+- DOMAIN-SUFFIX,myfreecams.com,18+
+- DOMAIN-SUFFIX,naiadsystems.com,18+
+- DOMAIN-SUFFIX,namethatporn.com,18+
+- DOMAIN-SUFFIX,nekoxxx.com,18+
+- DOMAIN-SUFFIX,netflav.com,18+
+- DOMAIN-SUFFIX,nhentai.net,18+
+- DOMAIN-SUFFIX,nsimg.net,18+
+- DOMAIN-SUFFIX,o0-2.com,18+
+- DOMAIN-SUFFIX,ohyeah1080.com,18+
+- DOMAIN-SUFFIX,onejav.com,18+
+- DOMAIN-SUFFIX,osakamotion.net,18+
+- DOMAIN-SUFFIX,p3.csgfnmdb.com,18+
+- DOMAIN-SUFFIX,papalah.com,18+
+- DOMAIN-SUFFIX,phncdn.com,18+
+- DOMAIN-SUFFIX,phprcdn.com,18+
+- DOMAIN-SUFFIX,pigav.com,18+
+- DOMAIN-SUFFIX,playno1.com,18+
+- DOMAIN-SUFFIX,popjav.tv,18+
+- DOMAIN-SUFFIX,pornbest.org,18+
+- DOMAIN-SUFFIX,pornhd.com,18+
+- DOMAIN-SUFFIX,pornhub.com,18+
+- DOMAIN-SUFFIX,pornhubpremium.com,18+
+- DOMAIN-SUFFIX,pornmd.com,18+
+- DOMAIN-SUFFIX,pornstarbyface.com,18+
+- DOMAIN-SUFFIX,porntea.com,18+
+- DOMAIN-SUFFIX,press.vin,18+
+- DOMAIN-SUFFIX,pyhapp.com,18+
+- DOMAIN-SUFFIX,qingse.one,18+
+- DOMAIN-SUFFIX,r18lu.com,18+
+- DOMAIN-SUFFIX,realitykings.com,18+
+- DOMAIN-SUFFIX,redgifs.com,18+
+- DOMAIN-SUFFIX,redtube.com,18+
+- DOMAIN-SUFFIX,rule34.xxx,18+
+- DOMAIN-SUFFIX,scoreland.com,18+
+- DOMAIN-SUFFIX,seqingx.com,18+
+- DOMAIN-SUFFIX,seselah.com,18+
+- DOMAIN-SUFFIX,sextop1.net,18+
+- DOMAIN-SUFFIX,sexzy4.com,18+
+- DOMAIN-SUFFIX,soirt4.fun,18+
+- DOMAIN-SUFFIX,south-plus.net,18+
+- DOMAIN-SUFFIX,spankbang.com,18+
+- DOMAIN-SUFFIX,stripchat.com,18+
+- DOMAIN-SUFFIX,sub147.com,18+
+- DOMAIN-SUFFIX,swag.live,18+
+- DOMAIN-SUFFIX,t66y.com,18+
+- DOMAIN-SUFFIX,tbr.tangbr.net,18+
+- DOMAIN-SUFFIX,tellme.pw,18+
+- DOMAIN-SUFFIX,theav.cc,18+
+- DOMAIN-SUFFIX,theporndude.com,18+
+- DOMAIN-SUFFIX,thisav.com,18+
+- DOMAIN-SUFFIX,thtmod1.com,18+
+- DOMAIN-SUFFIX,tkb008.xyz,18+
+- DOMAIN-SUFFIX,tokyomotion.net,18+
+- DOMAIN-SUFFIX,torrentkitty.tv,18+
+- DOMAIN-SUFFIX,tssp.best,18+
+- DOMAIN-SUFFIX,tube8.com,18+
+- DOMAIN-SUFFIX,tubetubetube.com,18+
+- DOMAIN-SUFFIX,upjav.cc,18+
+- DOMAIN-SUFFIX,uug22.com,18+
+- DOMAIN-SUFFIX,uug23.com,18+
+- DOMAIN-SUFFIX,uug25.com,18+
+- DOMAIN-SUFFIX,uug26.com,18+
+- DOMAIN-SUFFIX,uug27.com,18+
+- DOMAIN-SUFFIX,uuk28.com,18+
+- DOMAIN-SUFFIX,uun78.com,18+
+- DOMAIN-SUFFIX,uun79.com,18+
+- DOMAIN-SUFFIX,uun82.com,18+
+- DOMAIN-SUFFIX,uun83.com,18+
+- DOMAIN-SUFFIX,uun85.com,18+
+- DOMAIN-SUFFIX,uun86.com,18+
+- DOMAIN-SUFFIX,uun87.com,18+
+- DOMAIN-SUFFIX,uun89.com,18+
+- DOMAIN-SUFFIX,uun92.com,18+
+- DOMAIN-SUFFIX,uun93.com,18+
+- DOMAIN-SUFFIX,uun95.com,18+
+- DOMAIN-SUFFIX,uun96.com,18+
+- DOMAIN-SUFFIX,uun97.com,18+
+- DOMAIN-SUFFIX,uun98.com,18+
+- DOMAIN-SUFFIX,uun99.com,18+
+- DOMAIN-SUFFIX,uux68.com,18+
+- DOMAIN-SUFFIX,vaginacontest.com,18+
+- DOMAIN-SUFFIX,vgg8.com,18+
+- DOMAIN-SUFFIX,vjav.com,18+
+- DOMAIN-SUFFIX,watchjavonline.com,18+
+- DOMAIN-SUFFIX,wuso.me,18+
+- DOMAIN-SUFFIX,wzmyg.com,18+
+- DOMAIN-SUFFIX,x-art.com,18+
+- DOMAIN-SUFFIX,x18r.com,18+
+- DOMAIN-SUFFIX,x99av.com,18+
+- DOMAIN-SUFFIX,xhcdn.com,18+
+- DOMAIN-SUFFIX,xo104.com,18+
+- DOMAIN-SUFFIX,xtube.com,18+
+- DOMAIN-SUFFIX,yjcontentdelivery.com,18+
+- DOMAIN-SUFFIX,youav.com,18+
+- DOMAIN-SUFFIX,youjizz.com,18+
+- DOMAIN-SUFFIX,youporn.com,18+
+- DOMAIN-SUFFIX,cdn77.scoreuniverse.com,18+
+- DOMAIN-SUFFIX,widgets.stripst.com,18+
+#Akun Bank
+- DOMAIN-SUFFIX,bankmas.co.id,AKUN BANK
+- DOMAIN-SUFFIX,gojek.com,AKUN BANK
+- DOMAIN-SUFFIX,gobiz.co.id,AKUN BANK
+- DOMAIN-SUFFIX,ovo.id,AKUN BANK
+- DOMAIN-SUFFIX,dana.id,AKUN BANK
+- DOMAIN-SUFFIX,linkaja.id,AKUN BANK
+- DOMAIN-SUFFIX,octoclicks.co.id,AKUN BANK
+- DOMAIN-SUFFIX,i-saku.com,AKUN BANK
+- DOMAIN-SUFFIX,doku.com,AKUN BANK
+- DOMAIN-SUFFIX,shopeepay.co.id,AKUN BANK
+- DOMAIN-SUFFIX,grab.com,AKUN BANK
+- DOMAIN-SUFFIX,grabtaxi.com,AKUN BANK
+- DOMAIN-KEYWORD,gojek,AKUN BANK
+- DOMAIN-KEYWORD,gobiz,AKUN BANK
+- DOMAIN-KEYWORD,ovo,AKUN BANK
+- DOMAIN-KEYWORD,dana,AKUN BANK
+- DOMAIN-KEYWORD,linkaja,AKUN BANK
+- DOMAIN-KEYWORD,octoclicks,AKUN BANK
+- DOMAIN-KEYWORD,i-saku,AKUN BANK
+- DOMAIN-KEYWORD,doku,AKUN BANK
+- DOMAIN-KEYWORD,shopeepay,AKUN BANK
+- DOMAIN-KEYWORD,grab,AKUN BANK
+- DOMAIN-KEYWORD,grabtaxi,AKUN BANK
+# Keyword ID
+- DOMAIN-KEYWORD,ac.id,AKUN BANK
+- DOMAIN-KEYWORD,or.id,AKUN BANK
+- DOMAIN-KEYWORD,go.id,AKUN BANK
+- DOMAIN-KEYWORD,my.id,AKUN BANK
+- DOMAIN-KEYWORD,web.id,AKUN BANK
+- DOMAIN-KEYWORD,biz.id,AKUN BANK
+- DOMAIN-KEYWORD,net.id,AKUN BANK
+- DOMAIN-KEYWORD,mil.id,AKUN BANK
+- DOMAIN-KEYWORD,sch.id,AKUN BANK
+- DOMAIN-KEYWORD,desa.id,AKUN BANK
+- DOMAIN-KEYWORD,ponpes.id,AKUN BANK
+#Go-Pay [Go-Jek]
+- DOMAIN-KEYWORD,gopay-topup,AKUN BANK
+#OVO
+- DOMAIN-SUFFIX,ovo.id,AKUN BANK
+#LinkAja
+- DOMAIN-SUFFIX,linkaja.com,AKUN BANK
+#Dana
+- DOMAIN-SUFFIX,split.io,AKUN BANK
+- DOMAIN-SUFFIX,dana.id,AKUN BANK
+- DOMAIN-SUFFIX,innov8.id,AKUN BANK
+#Doku
+- DOMAIN-SUFFIX,dokuwallet.com,AKUN BANK
+#BCA
+- DOMAIN-SUFFIX,klikbca.com,AKUN BANK
+#BRI (BRI Link,  BRImo, BRIcredit)
+- DOMAIN-SUFFIX,bri.co.id,AKUN BANK
+#Mandiri
+- DOMAIN-SUFFIX,mandiri.co.id,AKUN BANK
+#Bank Syariah Mandiri
+- DOMAIN-SUFFIX,bsm.co.id,AKUN BANK
+#Muamalat
+- DOMAIN-SUFFIX,bankmuamalat.co.id,AKUN BANK
+#iklan --------
+- DOMAIN-SUFFIX,servenobid.com,IKLAN
+- DOMAIN-SUFFIX,smartadserver.com,IKLAN
+- DOMAIN-SUFFIX,amazon-adsystem.com,IKLAN
+- DOMAIN-SUFFIX,adnxs.com,IKLAN
+- DOMAIN-SUFFIX,adform.net,IKLAN
+- DOMAIN-SUFFIX,adsby.bidtheatre.com,IKLAN
+- DOMAIN-SUFFIX,dotomi.com,IKLAN
+- DOMAIN-SUFFIX,adgrx.com.com,IKLAN
+- DOMAIN-SUFFIX,adsrvr.org,IKLAN
+- DOMAIN-SUFFIX,360yield.com,IKLAN
+- DOMAIN-SUFFIX,ad.turn.com,IKLAN
+- DOMAIN-SUFFIX,stickyadstv.com,IKLAN
+- DOMAIN-SUFFIX,ads.pubmatic.com,IKLAN
+- DOMAIN-SUFFIX,ads.yieldmo.com,IKLAN
+- DOMAIN-SUFFIX,matomo.darken.eu,IKLAN
+# Hotstar
+- DOMAIN-SUFFIX,heytapmobile.com,IKLAN
+- DOMAIN-SUFFIX,newrelic.com,IKLAN
+- DOMAIN-SUFFIX,trafficfactory.biz,IKLAN
+# Google Ads
+- DOMAIN-SUFFIX,googleads.g.doubleclick.net,IKLAN
+- DOMAIN-SUFFIX,googlevideo.com,IKLAN
+- DOMAIN-SUFFIX,pagead2.googlesyndication.com,IKLAN
+- DOMAIN-SUFFIX,pagead2.googleadservices.com,IKLAN
+- DOMAIN-SUFFIX,googleadservices.com,IKLAN
+- DOMAIN-SUFFIX,static.doubleclick.net,IKLAN
+- DOMAIN-SUFFIX,doubleclick.net,IKLAN
+- DOMAIN-KEYWORD,ads.,IKLAN
+- DOMAIN-KEYWORD,adservice.,IKLAN
+# > Media.net
+- DOMAIN-SUFFIX,media.net,IKLAN
+# > Doubleclick.net
+- DOMAIN-SUFFIX,doubleclick.net,IKLAN
+# > FastClick
+- DOMAIN-SUFFIX,fastclick.com,IKLAN
+- DOMAIN-SUFFIX,fastclick.net,IKLAN
+# > Amazon
+- DOMAIN-SUFFIX,adtago.s3.amazonaws.com,IKLAN
+- DOMAIN-SUFFIX,analyticsengine.s3.amazonaws.com,IKLAN
+- DOMAIN-SUFFIX,advice-ads.s3.amazonaws.com,IKLAN
+- DOMAIN-SUFFIX,affiliationjs.s3.amazonaws.com,IKLAN
+- DOMAIN-SUFFIX,advertising-api-eu.amazon.com,IKLAN
+- DOMAIN-SUFFIX,amazonaax.com,IKLAN
+- DOMAIN-SUFFIX,amazonclix.com,IKLAN
+- DOMAIN-SUFFIX,assoc-amazon.com,IKLAN
+# Analytics
+# Yahoo
+- DOMAIN-SUFFIX,ads.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,adserver.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,adspecs.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,advertising.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,analytics.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,comet.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,log.fc.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,ganon.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,gemini.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,geo.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,marketingsolutions.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,pclick.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,analytics.query.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,geo.query.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,onepush.query.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,bats.video.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,visit.webhosting.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,ads.yap.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,m.yap.yahoo.com,IKLAN
+- DOMAIN-SUFFIX,partnerads.ysm.yahoo.com,IKLAN
+# yandex
+- DOMAIN-SUFFIX,appmetrica.yandex.com,IKLAN
+- DOMAIN-SUFFIX,report.appmetrica.yandex.net,IKLAN
+- DOMAIN-SUFFIX,extmaps-api.yandex.net,IKLAN
+- DOMAIN-SUFFIX,analytics.mobile.yandex.net,IKLAN
+- DOMAIN-SUFFIX,banners.mobile.yandex.net,IKLAN
+- DOMAIN-SUFFIX,banners-slb.mobile.yandex.net,IKLAN
+- DOMAIN-SUFFIX,startup.mobile.yandex.net,IKLAN
+- DOMAIN-SUFFIX,offerwall.yandex.net,IKLAN
+- DOMAIN-SUFFIX,adfox.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,adsdk.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,an.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,redirect.appmetrica.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,awaps.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,awsync.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,bs.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,bs-meta.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,clck.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,informer.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,kiks.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,grade.market.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,mc.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,metrika.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,click.sender.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,share.yandex.ru,IKLAN
+- DOMAIN-SUFFIX,yandexadexchange.net,IKLAN
+# Google Analytics
+- DOMAIN-SUFFIX,google-analytics.com,IKLAN
+# Hotjar
+- DOMAIN-SUFFIX,api-hotjar.com,IKLAN
+- DOMAIN-SUFFIX,hotjar-analytics.com,IKLAN
+- DOMAIN-SUFFIX,hotjar.com,IKLAN
+# MouseFlow
+- DOMAIN-SUFFIX,mouseflow.com,IKLAN
+- DOMAIN-SUFFIX,a.mouseflow.com,IKLAN
+# FreshMarketer
+- DOMAIN-SUFFIX,freshmarketer.com,IKLAN
+# Luckyorange
+- DOMAIN-SUFFIX,luckyorange.com,IKLAN
+- DOMAIN-SUFFIX,luckyorange.net,IKLAN
+- DOMAIN-SUFFIX,settings.luckyorange.net,IKLAN
+- DOMAIN-SUFFIX,cs.luckyorange.net,IKLAN
+- DOMAIN-SUFFIX,upload.luckyorange.net,IKLAN
+- DOMAIN-SUFFIX,w1.luckyorange.com,IKLAN
+- DOMAIN-SUFFIX,cdn.luckyorange.com,IKLAN
+# Stats WP Plugin
+- DOMAIN-SUFFIX,stats.wp.com,IKLAN
+# Error Trackers
+# Bugsnag
+- DOMAIN-SUFFIX,notify.bugsnag.com,IKLAN
+- DOMAIN-SUFFIX,sessions.bugsnag.com,IKLAN
+- DOMAIN-SUFFIX,api.bugsnag.com,IKLAN
+- DOMAIN-SUFFIX,app.bugsnag.com,IKLAN
+# Sentry
+- DOMAIN-SUFFIX,browser.sentry-cdn.com,IKLAN
+- DOMAIN-SUFFIX,app.getsentry.com,IKLAN
+# Social
+# Facebook
+- DOMAIN-SUFFIX,pixel.facebook.com,IKLAN
+- DOMAIN-SUFFIX,analytics.facebook.com,IKLAN
+- DOMAIN-SUFFIX,ads.facebook.com,IKLAN
+- DOMAIN-SUFFIX,an.facebook.com,IKLAN
+# Twitter
+- DOMAIN-SUFFIX,ads-api.twitter.com,IKLAN
+- DOMAIN-SUFFIX,advertising.twitter.com,IKLAN
+- DOMAIN-SUFFIX,ads-twitter.com,IKLAN
+# > LinkedIn
+- DOMAIN-SUFFIX,ads.linkedin.com,IKLAN
+- DOMAIN-SUFFIX,analytics.pointdrive.linkedin.com,IKLAN
+#  Pinterest
+- DOMAIN-SUFFIX,ads.pinterest.com,IKLAN
+- DOMAIN-SUFFIX,log.pinterest.com,IKLAN
+- DOMAIN-SUFFIX,ads-dev.pinterest.com,IKLAN
+- DOMAIN-SUFFIX,analytics.pinterest.com,IKLAN
+- DOMAIN-SUFFIX,trk.pinterest.com,IKLAN
+- DOMAIN-SUFFIX,trk2.pinterest.com,IKLAN
+- DOMAIN-SUFFIX,widgets.pinterest.com,IKLAN
+# Reddit
+- DOMAIN-SUFFIX,ads.reddit.com,IKLAN
+- DOMAIN-SUFFIX,rereddit.com,IKLAN
+- DOMAIN-SUFFIX,events.redditmedia.com,IKLAN
+- DOMAIN-SUFFIX,d.reddit.com,IKLAN
+# TikTok
+- DOMAIN-SUFFIX,ads-sg.tiktok.com,IKLAN
+- DOMAIN-SUFFIX,analytics-sg.tiktok.com,IKLAN
+- DOMAIN-SUFFIX,ads.tiktok.com,IKLAN
+- DOMAIN-SUFFIX,analytics.tiktok.com,IKLAN
+# YouTube
+- DOMAIN-SUFFIX,ads.youtube.com,IKLAN
+- DOMAIN-SUFFIX,youtube.cleverads.vn,IKLAN
+# Mix
+# Yahoo
+# Yandex
+# OEM 
+# Realme
+- DOMAIN-SUFFIX,bdapi-in-ads.realmemobile.com,IKLAN
+# OPPO
+- DOMAIN-SUFFIX,adsfs.oppomobile.com,IKLAN
+- DOMAIN-SUFFIX,adx.ads.oppomobile.com,IKLAN
+- DOMAIN-SUFFIX,bdapi.ads.oppomobile.com,IKLAN
+- DOMAIN-SUFFIX,ck.ads.oppomobile.com,IKLAN
+- DOMAIN-SUFFIX,data.ads.oppomobile.com,IKLAN
+- DOMAIN-SUFFIX,g1.ads.oppomobile.com,IKLAN
+# Xiaomi   
+- DOMAIN-SUFFIX,api.ad.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,app.chat.xiaomi.net,IKLAN
+- DOMAIN-SUFFIX,data.mistat.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,data.mistat.intl.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,data.mistat.india.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,data.mistat.rus.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,sdkconfig.ad.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,sdkconfig.ad.intl.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,globalapi.ad.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,www.cdn.ad.xiaomi.com,IKLAN
+- DOMAIN-SUFFIX,tracking.miui.com,IKLAN
+- DOMAIN-SUFFIX,sa.api.intl.miui.com,IKLAN
+- DOMAIN-SUFFIX,tracking.intl.miui.com,IKLAN
+- DOMAIN-SUFFIX,tracking.india.miui.com,IKLAN
+- DOMAIN-SUFFIX,tracking.rus.miui.com,IKLAN
+# OnePlus
+- DOMAIN-SUFFIX,analytics.oneplus.cn,IKLAN
+- DOMAIN-SUFFIX,click.oneplus.cn,IKLAN
+- DOMAIN-SUFFIX,click.oneplus.com,IKLAN
+- DOMAIN-SUFFIX,open.oneplus.net,IKLAN
+# Huawei
+- DOMAIN-SUFFIX,metrics.data.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,metrics1.data.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,metrics2.data.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,metrics3.data.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,metrics4.data.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,metrics5.data.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,logservice.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,logservice1.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,metrics-dra.dt.hicloud.com,IKLAN
+- DOMAIN-SUFFIX,logbak.hicloud.com,IKLAN
+# Samsung
+- DOMAIN-SUFFIX,samsungadhub.com,IKLAN
+- DOMAIN-SUFFIX,samsungads.com,IKLAN
+- DOMAIN-SUFFIX,smetrics.samsung.com,IKLAN
+- DOMAIN-SUFFIX,nmetrics.samsung.com,IKLAN
+- DOMAIN-SUFFIX,samsung-com.112.2o7.net,IKLAN
+- DOMAIN-SUFFIX,business.samsungusa.com,IKLAN
+- DOMAIN-SUFFIX,analytics.samsungknox.com,IKLAN
+- DOMAIN-SUFFIX,bigdata.ssp.samsung.com,IKLAN
+- DOMAIN-SUFFIX,analytics-api.samsunghealthcn.com,IKLAN
+# Apple
+- DOMAIN-SUFFIX,metrics.apple.com,IKLAN
+- DOMAIN-SUFFIX,securemetrics.apple.com,IKLAN
+- DOMAIN-SUFFIX,supportmetrics.apple.com,IKLAN
+- DOMAIN-SUFFIX,metrics.icloud.com,IKLAN
+- DOMAIN-SUFFIX,metrics.mzstatic.com,IKLAN
+- DOMAIN-SUFFIX,dzc-metrics.mzstatic.com,IKLAN
+- DOMAIN-SUFFIX,books-analytics-events.news.apple-dns.net,IKLAN
+- DOMAIN-SUFFIX,books-analytics-events.apple.com,IKLAN
+- DOMAIN-SUFFIX,stocks-analytics-events.apple.com,IKLAN
+- DOMAIN-SUFFIX,stocks-analytics-events.news.apple-dns.net,IKLAN
+
+
+
+
+
+
+
+
+
+
+
+
+# Local Area Network
+- IP-CIDR,192.168.0.0/16,DIRECT
+- IP-CIDR,10.0.0.0/8,DIRECT
+- IP-CIDR,172.16.0.0/12,DIRECT
+- IP-CIDR,127.0.0.0/8,DIRECT
+- IP-CIDR,100.64.0.0/10,DIRECT
+
+# DNSPod Public DNS+
+- IP-CIDR,119.28.28.28/32,DIRECT,no-resolve
+
+# GeoIP China
+- GEOIP,CN,DIRECT
+#--------------------------------------
+
+- MATCH,Global✅
+
+#--------------------------------------
+
+
